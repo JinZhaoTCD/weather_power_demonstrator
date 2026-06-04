@@ -44,3 +44,9 @@ All geographic data unified to **EPSG:2157 (Irish Transverse Mercator)**:
 - Flow particles on operational lines
 - Generator icons (⚡) at bus locations
 - Backup line with glow and particle flow when activated
+
+## Credits
+
+ **Dr. Dong** – Project supervision and initial animation framework, added CLC land cover background
+- **Xi Wang** – Compiled grid data from Excel and mapped bus coordinates to the map.
+- **Leshan Hu** –  transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ polygons to 5 for CLC background), reference system transformation(from EPSG 4326 to EPSG 2157), TouchDesigner compositing, and projector alignment to the physical terrain model.

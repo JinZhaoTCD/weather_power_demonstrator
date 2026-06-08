@@ -74,7 +74,7 @@ All geographic data unified to **EPSG:2157 (Irish Transverse Mercator)**:
 - `hardware` – Hardware firmware (with Dr. Shen)
 
 ## Credits
-- **Dr. Dong** – Project supervision, and initial animation framework, added CLC land cover background
-- **Dr. Shen** - Supervision, sandbox, material purchasing, and 3D printing of grid models. 
-- **Xi Wang** – Compiled grid data from Excel and mapped bus coordinates to the map.
-- **Leshan Hu** –  transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ polygons to 5 for CLC background), reference system transformation(from EPSG 4326 to EPSG 2157), TouchDesigner compositing, and projector alignment to the physical terrain model,
+- **Dr.HanJiang Dong** – Project supervision, and initial animation framework, added CLC land cover background
+- **Dr.Yang Shen** - Supervision, sandbox consturction, material purchasing, and 3D printing of grid models. 
+- **Xi Wang** – Constructed and curated the 67-bus All-Island transmission grid model at 220 kV and above, used as the core network dataset for the demonstrator, including bus, branch, generator, and geospatial coordinate information; processed and validated the network topology; and mapped grid components to Irish geographic coordinates.
+- **Leshan Hu** –  transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ polygons to 5 for CLC background), geospatial data preprocessing and coordinate-system harmonisation for integrating the power grid, country and county boundary, land-cover, and physical sandbox layers(from EPSG 4326 to EPSG 2157), TouchDesigner compositing, and projector alignment to the physical terrain model,

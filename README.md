@@ -1,6 +1,5 @@
 # Ireland's Power Grid Resilience Under Extreme Weather - Demo
 
-
 ## Background
 
 On 28 April 2025, a blackout plunged most of Spain and Portugal into darkness, affecting over 40 million people. At the moment of collapse, more than 70% of generation came from solar and wind—the highest renewable penetration ever recorded during a major grid failure.
@@ -16,6 +15,7 @@ This project visualizes these dynamics through a **virtual animation** and a **p
 Visualizes a storm moving across the Irish power grid, showing:
 
 ### Virtual animation projection 
+
 - **Real grid infrastructure** – 67 buses and transmission lines (220kV and above) from actual Irish grid data, with precise GPS coordinates mapped to EPSG:2157
 - **Storm impact simulation** – Lines trip under extreme weather, with dynamic danger rings based on distance to storm center
 - **Automatic grid reconfiguration** – When target line fails, backup line automatically activates, then deactivates after restoration
@@ -24,24 +24,24 @@ Visualizes a storm moving across the Irish power grid, showing:
 - **Power flow visualization** - using partial effect on grid branches to represent the load
 The output is a transparent-background PNG sequence ready for real-time compositing in TouchDesigner with terrain overlays.
 
-### Physical model implementation
-(See branch "physical-irl-sandbox" )
+### Physical model implementation (See branch "physical-irl-sandbox" )
+
 - **Phycial sandbox model of irl grid** - 3D printed grid components (Wind Farm, Coal/Gas Plant, Solar PV Farm, Transformer, Transmission Tower) scaled to map size, with accurate position on the map
 - **Detailed power grid level structure** - The sand box model further detailed the animation (220kV and above), adding 110kV subnet 
 - **Dynamic power flow representation** - Raspberry Pi 5 and programmable relays mapped the state and reconfiguration of critical branches from the digital animation to the physical sandbox model with flowing visual effect
 - **Interactive design**  - Live-demonstrable scaled wind turbine models capable of real-time generation
 
-
-
 ## Data Sources
 
 ### 1. Ireland Boundary (GeoJSON)
+
 - **Source**: OpenStreetMap (OSM) / Geo2Day Project
 - **Access**: [geo2day.com/europe/ireland.html](https://geo2day.com/europe/ireland.html)
 - **File**: `ireland.geojson`
 - **Coordinate System**: WGS84 (EPSG:4326) → converted to ITM (EPSG:2157) in code
 
 ### 2. Corine Land Cover 2018 (Ireland)
+
 - **Source**: Environmental Protection Agency, Ireland
 - **Access**: [data.gov.ie/dataset/corine-landcover-2018](https://data.gov.ie/dataset/corine-landcover-2018)
 - **File**: `CLC18_IE_ITM.shp`
@@ -49,11 +49,12 @@ The output is a transparent-background PNG sequence ready for real-time composit
 - **Coordinate System**: ITM (EPSG:2157)
 
 ### 3. Irish Transmission Grid Data
+
 - **Source**: Provided by Xi Wang
 - **File**: `All Island transmission grid parameter.xlsx`
 - **Sheets**: `Bus` (node locations), `Branch` (transmission lines), `Generator` (power plants)
 
-## Coordinate Reference System (CRS)
+## 4.Coordinate Reference System (CRS)
 
 All geographic data unified to **EPSG:2157 (Irish Transverse Mercator)**:
 - Bus: WGS84 → ITM via `pyproj.Transformer`
@@ -71,10 +72,12 @@ All geographic data unified to **EPSG:2157 (Irish Transverse Mercator)**:
 ## Branches
 
 - `animation` – Grid animation code (this branch)
-- `hardware` – Hardware firmware (with Dr. Shen)
+- `hardware` – Hardware firmware (with Dr. Yang Shen)
 
 ## Credits
-- **Dr.HanJiang Dong** – Project supervision, and initial animation framework, added CLC land cover background
-- **Dr.Yang Shen** - Supervision, sandbox consturction, material purchasing, and 3D printing of grid models. 
+
+- **Dr. Jin Zhao** - Project administration，conceptualization, funding acquisition.
+- **Dr.HanJiang Dong** – Project management,supervision, initial animation framework,and adding CLC land cover background.
+- **Dr.Yang Shen** - Project supervision, sandbox consturction, material purchasing, and 3D printing of grid models.  
 - **Xi Wang** – Constructed and curated the 67-bus All-Island transmission grid model at 220 kV and above, used as the core network dataset for the demonstrator, including bus, branch, generator, and geospatial coordinate information; processed and validated the network topology; and mapped grid components to Irish geographic coordinates.
-- **Leshan Hu** –  transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ polygons to 5 for CLC background), geospatial data preprocessing and coordinate-system harmonisation for integrating the power grid, country and county boundary, land-cover, and physical sandbox layers(from EPSG 4326 to EPSG 2157), TouchDesigner compositing, and projector alignment to the physical terrain model,
+- **Leshan Hu** –  transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ polygons to 5 for CLC background), geospatial data preprocessing and coordinate-system harmonisation for integrating the power grid, country and county boundary, land-cover, and physical sandbox layers(from EPSG 4326 to EPSG 2157), TouchDesigner compositing, and projector alignment to the physical terrain model. 

@@ -7,7 +7,7 @@ import neopixel
 import subprocess
 
 cpp_proc=subprocess.Popen(
-    ["/home/maya/Desktop/USB-RELAY(SourceCodeProjet2)/build/usbrelay"],
+    ["Your output .exe file path from 'relay_command.cpp'"],
     stdin=subprocess.PIPE,
     text=True
 )

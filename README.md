@@ -23,11 +23,12 @@ Visualizes a storm moving across the Irish power grid, showing:
 - **High-precision basemap** – Ireland boundary from GeoJSON + Corine Land Cover (CLC) data at 5-class simplified color scheme
 - **Power flow visualization** - using partial effect on grid branches to represent the load
 The output is a transparent-background PNG sequence ready for real-time compositing in TouchDesigner with terrain overlays.
+- **Text overlay animation** – Transparent-background PNG text sequences that can be independently positioned and scaled in TouchDesigner, fully synchronized with grid animation timeline
 
 ### Physical model implementation (See branch "physical-irl-sandbox")
 
 - **Physical sandbox model of irl grid** - 3D printed grid components (Wind Farm, Coal/Gas Plant, Solar PV Farm, Transformer, Transmission Tower) scaled to map size, with accurate position on the map
-- **Detailed power grid level structure** - The sand box model further detailed the animation (220kV and above), adding 110kV subnet 
+- **Detailed power grid level structure** - The sand box model further detailed the animation (220kV and above), adding 110kV subnet
 - **Dynamic power flow representation** - Raspberry Pi 5 and programmable relays mapped the state and reconfiguration of critical branches from the digital animation to the physical sandbox model with flowing visual effect
 - **Interactive design**  - Live-demonstrable scaled wind turbine models capable of real-time generation
 
@@ -50,7 +51,9 @@ The output is a transparent-background PNG sequence ready for real-time composit
 
 ### 3. Irish Transmission Grid Data
 
-- **Source**: Provided by Xi Wang
+- **Source**: All-Island Ten Year Transmission Forecast Statement
+- **Access**: [Study files](https://cms.eirgrid.ie/all-island-ten-year-transmission-forecast-statement)
+- **Author**: Xi Wang
 - **File**: `All Island transmission grid parameter.xlsx`
 - **Sheets**: `Bus` (node locations), `Branch` (transmission lines), `Generator` (power plants)
 
@@ -70,13 +73,13 @@ This project uses two types of third-party libraries:
 
 - **Copyright**: © 1996-2026 SEEIT. All Rights Reserved.
 - **Trademark**: SEEIT is a registered trademark.
-- **License**: This is proprietary software. Unauthorized reproduction, in whole or in part, is prohibited under French law 
+- **License**: This is proprietary software. Unauthorized reproduction, in whole or in part, is prohibited under French law.
 - **Disclaimer**: SEEIT assumes no responsibility for any damages arising from the use of the device or software.
 - **Obtaining the library**: You must obtain this library directly from SEEIT through official channels. **This repository contains NO SEEIT proprietary code.**
 
 ### 2. Adafruit NeoPixel Library
 
-- **Source**: https://github.com/adafruit/Adafruit_NeoPixel
+- **Source**: [Adafruit NeoPixel](https://github.com/adafruit/Adafruit_NeoPixel)
 - **Copyright**: Adafruit Industries
 - **License**: GNU Lesser General Public License v3.0 (LGPL-3.0)
 - **Disclaimer**: This library is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the LGPL-3.0 license for details.
@@ -102,6 +105,15 @@ This project uses two types of third-party libraries:
 - **Dr. Yang Shen** - Project supervision, sandbox consturction, material purchasing, and 3D printing of grid models.  
 - **Xi Wang** – Constructed and curated the 67-bus All-Island transmission grid model at 220 kV and above, used as the core network dataset for the demonstrator, including bus, branch, generator, and geospatial coordinate information; processed and validated the network topology; and mapped grid components to Irish geographic coordinates.
 - **Leshan Hu**  
-  - **Software & integration**: Transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ polygons to 5 for CLC background), geospatial data preprocessing and coordinate harmonisation (EPSG:4326 → EPSG:2157), TouchDesigner output compositing, projector alignment to physical terrain model.
-  - **Physical hardware implementation**: RPi 5 + USB relay board – `relay_command.cpp` for state control, resolved vendor driver incompatibility (sourced legacy serial USB driver). NeoPixel LED control – WS2812B integration with **non-blocking event loop**, migrated libraries for RPi 5 compatibility, ported to Python 3.11, resolved missing GPIO dependencies. Electrical assembly – hand-soldered load LED matrix and complete wiring harness. Real-time state mapping between digital animation timeline and physical sandbox.
-  - **Environment & build troubleshooting**: Resolved relay driver mismatch, NeoPixel library incompatibility (RPi 5 kernel), Python 3.13 → 3.11 downgrade, and GPIO dependency issues – enabling stable hardware demonstration.
+- **Leshan Hu**  
+  - **Software & animation**: Transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ → 5 polygons for CLC), geospatial preprocessing and CRS harmonisation (EPSG:4326 → EPSG:2157), TouchDesigner compositing, projector alignment, text overlay animation (transparent PNG text sequences for status labels and phase descriptions, independently movable/scalable in TouchDesigner and synchronized with grid timeline).
+  - **Physical hardware & firmware**:
+    - USB relay control (`relay_command.cpp`) – custom C++ program for state switching; resolved driver incompatibility by sourcing legacy serial USB driver.
+    - NeoPixel LED control (`dynamic_sandbox_event.py`) – WS2812B integration with non-blocking event loop; evaluated and replaced incompatible libraries for Raspberry Pi 5; ported to Python 3.11 due to kernel/GPIO compatibility issues.
+    - Cross-process communication – `subprocess.Popen` architecture enabling non-blocking coordination between Python animation and C++ relay commands.
+    - Event-driven state machine – 12-phase fault injection timeline (main trip → backup activation → recovery) with precise timing control.
+    - Electrical assembly – hand-soldered load LED matrix, complete wiring harness (RPi 5 ↔ relay board ↔ LED strips).
+  - **Environment & debugging**:
+    - Resolved incompatible vendor-provided relay driver; sourced and validated legacy USB-to-serial driver.
+    - Library migration – identified, tested, and ported between multiple NeoPixel libraries for RPi 5 compatibility.
+    - Python environment – downgraded to 3.11 and resolved missing GPIO dependencies for hardware control.

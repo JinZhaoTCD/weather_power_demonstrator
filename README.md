@@ -105,7 +105,6 @@ This project uses two types of third-party libraries:
 - **Dr. Yang Shen** - Project supervision, sandbox consturction, material purchasing, and 3D printing of grid models.  
 - **Xi Wang** – Constructed and curated the 67-bus All-Island transmission grid model at 220 kV and above, used as the core network dataset for the demonstrator, including bus, branch, generator, and geospatial coordinate information; processed and validated the network topology; and mapped grid components to Irish geographic coordinates.
 - **Leshan Hu**  
-- **Leshan Hu**  
   - **Software & animation**: Transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ → 5 polygons for CLC), geospatial preprocessing and CRS harmonisation (EPSG:4326 → EPSG:2157), TouchDesigner compositing, projector alignment, text overlay animation (transparent PNG text sequences for status labels and phase descriptions, independently movable/scalable in TouchDesigner and synchronized with grid timeline).
   - **Physical hardware & firmware**:
     - USB relay control (`relay_command.cpp`) – custom C++ program for state switching; resolved driver incompatibility by sourcing legacy serial USB driver.

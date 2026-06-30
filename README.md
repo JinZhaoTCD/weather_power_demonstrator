@@ -107,12 +107,13 @@ This project uses two types of third-party libraries:
 - **Leshan Hu**  
   - **Software & animation**: Transparent PNG sequence output, backup line reconfiguration logic, performance optimizations (merged 50k+ → 5 polygons for CLC), geospatial preprocessing and CRS harmonisation (EPSG:4326 → EPSG:2157), TouchDesigner compositing, projector alignment, text overlay animation (transparent PNG text sequences for status labels and phase descriptions, independently movable/scalable in TouchDesigner and synchronized with grid timeline).
   - **Physical hardware & firmware**:
+    - Dual SPI LED output - Two WS281x/NeoPixel LED strips are driven on separate SPI buses to avoid stutter when both strips animate at the same time.
+    - Explicit SPI selection - The Python LED controller uses a small spidev wrapper so the main and backup strips are assigned directly to LinuxSPI(0, 0) and LinuxSPI(3, 0) instead of relying on board.SPI() auto-detection.
     - USB relay control (`relay_command.cpp`) – custom C++ program for state switching; resolved driver incompatibility by sourcing legacy serial USB driver.
-    - NeoPixel LED control (`dynamic_sandbox_event.py`) – WS2812B integration with non-blocking event loop; evaluated and replaced incompatible libraries for Raspberry Pi 5; ported to Python 3.11 due to kernel/GPIO compatibility issues.
     - Cross-process communication – `subprocess.Popen` architecture enabling non-blocking coordination between Python animation and C++ relay commands.
     - Event-driven state machine – 12-phase fault injection timeline (main trip → backup activation → recovery) with precise timing control.
-    - Electrical assembly – hand-soldered load LED matrix, complete wiring harness (RPi 5 ↔ relay board ↔ LED strips).
+    - Electrical assembly – hand-soldered load LED matrix, wire jumping at WS281x/NeoPixel LED strips turning points , and wiring harness using strip board for safety consideration.
   - **Environment & debugging**:
     - Resolved incompatible vendor-provided relay driver; sourced and validated legacy USB-to-serial driver.
     - Library migration – identified, tested, and ported between multiple NeoPixel libraries for RPi 5 compatibility.
-    - Python environment – downgraded to 3.11 and resolved missing GPIO dependencies for hardware control.
+    - Python runtime - Python 3.11 virtual environment (demo311) with GPIO/SPI dependencies including adafruit-blinka, adafruit-circuitpython-neopixel-spi, spidev, lgpio, and RPi.GPIO.
